@@ -1,0 +1,13 @@
+[package]
+name = "RUSTAIFE"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+chrono = {version = "0.4.44"} #crate per le operazioni con data e ora
+clap = { version = "4.5.60" , features = ["derive"]} #crate per programmare delle CLI
+serde = {version = "1.0.228" , features = ["derive"]} #crate per serializzare e deserializzare varie strutture dati
+serde_json = "1.0.149" #come sopra ma specifica per il JSON
+tokio = { version = "1.50.0" , features = ["full"]} #crate per task asincrone (per fare più cose contemporaneamente)
+reqwest = { version = "0.13.2" , features = ["json"] } #crate (costruita su tokio) per creare domande e risposte in HTTP
+async-trait = "0.1.89" #le funzioni asincrone producono un risultato di tipo Future e a Rust piace sapere a compile time quale memoria deve allocare per i risultati. Il tipo Future è solamente la promessa che a un certo punto il risultato della funzione asincrona sarà di un certo tipo. A Rust questa cosa però non sta bene e quindi serve questa crate che fa funzionare tutto magicamente (vedere bene perchè)
