@@ -39,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let modello = Ollama::costruttoreollama("http://localhost:11434", m.clone());
         modelli.push(modello);
     }
-
+        
     for turno in 0..discussione.turni {
         for modello in &modelli {
 
