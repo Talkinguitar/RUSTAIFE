@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Parser, Serialize, Deserialize, Debug)]
 pub struct Interfaccia {
-    #[arg(short, long)]
+    #[arg(long)]
     pub topic: String,
     #[arg(short, long, default_value = "1")]
     pub turns: u32,
