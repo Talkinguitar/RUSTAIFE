@@ -7,6 +7,7 @@ use data_management::conversation_data_struct::ConversationData;
 use data_management::save_on_file::{conversation_mkdir, write_and_save};
 use provider::ollama::Ollama;
 use provider::provider::Provider;
+use rand::seq::SliceRandom;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -53,7 +54,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n{}", formatted);
     } else {
         for _ in 0..starting_data.turns - 1 {
-            for model in &models {
+            let mut rng = rand::rng();
+            let mut models_clone = models.clone();
+            models_clone.shuffle(&mut rng);
+            for model in &models_clone {
                 let prompt = if conversation.len() == 1 {
                     format!(
                         "You are {}.\nStart a conversation on the following topic:\n{}\n\nAnswer first:",
@@ -77,6 +81,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         for model in &models[0..models.len() - 1] {
+            let mut rng = rand::rng();
+            let mut models_clone = models.clone();
+            models_clone.shuffle(&mut rng);
             let prompt = if conversation.len() == 1 {
                 format!(
                     "You are {}.\nStart a conversation on the following topic:\n{}\n\nAnswer first:",
@@ -100,7 +107,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let prompt = format!(
             "You are {}.\nThis is the conversation so far:\n{}\n\nYou are the last one to intervene in the conversation, provide a summary of what has been said:",
-            last_model.llm, starting_data.topic
+            last_model.llm,
+            conversation.join("\n")
         );
 
         let intervention = last_model.identify_and_answer(&prompt).await?;

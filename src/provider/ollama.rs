@@ -4,6 +4,7 @@ use crate::provider::provider::{ErrorHandling, Provider};
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
+#[derive(Clone)]
 pub struct Ollama {
     pub provider_url: String,
     pub llm: String,
